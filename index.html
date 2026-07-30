@@ -178,9 +178,67 @@
                 </span>
             </div>
         </div>
-        <div class="lg:col-span-5 relative h-full w-full min-h-[60svh] lg:min-h-0 border-l border-[var(--border)]" data-kid="2-2-2" data-name="hero imagery container">
-            <img alt="Orb Labs Research Environment" class="absolute inset-0 w-full h-full object-cover filter grayscale-[0.2] brightness-[0.85]" data-kid="2-2-2-1" data-name="hero background image" decoding="async" loading="lazy" src="https://kombai-assets.b-cdn.net/generated_assets/0d4ef39c-66b3-48e7-b464-5a82cbc9d36e/d9f992b8c4d94a98ac461ac85c434c8f/d9f992b8c4d94a98ac461ac85c434c8f.jpg"/>
-            <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[var(--bg)] via-transparent to-transparent opacity-60" data-kid="2-2-2-2" data-name="image gradient overlay">
+        <!-- Right Column: Interactive Neural World Visualizer -->
+        <div class="lg:col-span-5 relative h-full w-full min-h-[600px] lg:min-h-0 border-l border-[var(--border)] overflow-hidden flex flex-col justify-between p-8 bg-[var(--surface)]/40" id="hero-interactive-container">
+            <!-- Background Crosshatch & Radial Glow -->
+            <div class="absolute inset-0 crosshatch opacity-30 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/15 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+
+            <!-- Canvas Element for Neural Particle Sphere -->
+            <canvas id="neural-orb-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+            <!-- Top HUD Status Bar -->
+            <div class="relative z-10 flex justify-between items-center border-b border-[var(--border)] pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping"></span>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[var(--fg)]/70">NEURAL WORLD SIMULATOR</span>
+                </div>
+                <span class="text-[10px] font-mono text-[var(--accent)] border border-[var(--accent)]/30 px-2 py-0.5 rounded uppercase tracking-wider">LATENT-V4.2</span>
+            </div>
+
+            <!-- Floating Interactive Cards in Center -->
+            <div class="relative z-10 my-auto space-y-4 py-8 max-w-sm mx-auto w-full">
+                <!-- Card 1 -->
+                <div class="p-5 bg-[var(--bg)]/80 backdrop-blur-md border border-[var(--border-strong)] rounded-lg hover:border-[var(--accent)] transition-all duration-300 transform hover:-translate-y-1 shadow-2xl group cursor-pointer">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-mono text-[var(--accent)] font-bold">[01] WORLD MODELS</span>
+                        <span class="text-[9px] font-mono text-[var(--fg)]/40 group-hover:text-[var(--accent)] transition-colors">99.8% FIDELITY</span>
+                    </div>
+                    <p class="text-xs text-[var(--fg)]/70 font-light leading-relaxed">
+                        Learning internal representations of physical & temporal dynamics across multimodal environments.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-5 bg-[var(--bg)]/80 backdrop-blur-md border border-[var(--border-strong)] rounded-lg hover:border-[var(--accent)] transition-all duration-300 transform hover:-translate-y-1 shadow-2xl group cursor-pointer">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-mono text-[var(--accent)] font-bold">[02] SCIENTIFIC DISCOVERY</span>
+                        <span class="text-[9px] font-mono text-[var(--fg)]/40 group-hover:text-[var(--accent)] transition-colors">EXASCALE SIM</span>
+                    </div>
+                    <p class="text-xs text-[var(--fg)]/70 font-light leading-relaxed">
+                        Accelerating biomolecular folding, materials discovery, and complex quantum chemical systems.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="p-5 bg-[var(--bg)]/80 backdrop-blur-md border border-[var(--border-strong)] rounded-lg hover:border-[var(--accent)] transition-all duration-300 transform hover:-translate-y-1 shadow-2xl group cursor-pointer">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-mono text-[var(--accent)] font-bold">[03] AUTONOMOUS AGENTS</span>
+                        <span class="text-[9px] font-mono text-[var(--fg)]/40 group-hover:text-[var(--accent)] transition-colors">CLOSED-LOOP</span>
+                    </div>
+                    <p class="text-xs text-[var(--fg)]/70 font-light leading-relaxed">
+                        High-frequency planning under uncertainty with continuous long-term memory architectures.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Live Telemetry Footer -->
+            <div class="relative z-10 flex justify-between items-center pt-4 border-t border-[var(--border)] text-[9px] font-mono text-[var(--fg)]/40 tracking-wider">
+                <div class="flex items-center gap-4">
+                    <span>FPS: <strong id="telemetry-fps" class="text-[var(--fg)]">60</strong></span>
+                    <span>STEPS: <strong class="text-[var(--fg)]">102,400</strong></span>
+                </div>
+                <div>CLUSTER: <strong class="text-[var(--accent)]">ACTIVE</strong></div>
             </div>
         </div>
     </section>
@@ -986,6 +1044,136 @@
       }
     });
   };
+</script>
+
+<!-- Interactive 3D Neural Canvas Script -->
+<script>
+(function() {
+  const canvas = document.getElementById('neural-orb-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let mouseX = 0, mouseY = 0;
+
+  function resize() {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const container = document.getElementById('hero-interactive-container');
+  if (container) {
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left - width / 2) * 0.0005;
+      mouseY = (e.clientY - rect.top - height / 2) * 0.0005;
+    });
+  }
+
+  // 3D Particles on a Sphere
+  const numParticles = 75;
+  const particles = [];
+  const radius = Math.min(width, height) * 0.35 || 160;
+
+  for (let i = 0; i < numParticles; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    particles.push({
+      x: radius * Math.sin(phi) * Math.cos(theta),
+      y: radius * Math.sin(phi) * Math.sin(theta),
+      z: radius * Math.cos(phi),
+      size: Math.random() * 2 + 1.5,
+      isAccent: Math.random() < 0.25
+    });
+  }
+
+  let angleX = 0.003;
+  let angleY = 0.005;
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    const cx = width / 2;
+    const cy = height / 2;
+
+    const rotX = angleX + mouseY;
+    const rotY = angleY + mouseX;
+
+    // Rotate and project 3D points
+    const projected = [];
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Rotate Y
+      let x1 = p.x * Math.cos(rotY) - p.z * Math.sin(rotY);
+      let z1 = p.z * Math.cos(rotY) + p.x * Math.sin(rotY);
+
+      // Rotate X
+      let y1 = p.y * Math.cos(rotX) - z1 * Math.sin(rotX);
+      let z2 = z1 * Math.cos(rotX) + p.y * Math.sin(rotX);
+
+      // Update position for continuous smooth spin
+      p.x = x1;
+      p.y = y1;
+      p.z = z2;
+
+      const perspective = 400 / (400 + z2);
+      const px = cx + x1 * perspective;
+      const py = cy + y1 * perspective;
+      const scale = perspective;
+
+      projected.push({ x: px, y: py, z: z2, scale, isAccent: p.isAccent, size: p.size });
+    }
+
+    // Sort by depth for correct rendering
+    projected.sort((a, b) => b.z - a.z);
+
+    // Draw connecting node lines
+    for (let i = 0; i < projected.length; i++) {
+      for (let j = i + 1; j < projected.length; j++) {
+        const dx = projected[i].x - projected[j].x;
+        const dy = projected[i].y - projected[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 110) {
+          const alpha = (1 - dist / 110) * 0.25 * projected[i].scale;
+          ctx.beginPath();
+          ctx.strokeStyle = projected[i].isAccent || projected[j].isAccent 
+            ? `rgba(249, 115, 22, ${alpha * 1.5})` 
+            : `rgba(250, 250, 250, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.moveTo(projected[i].x, projected[i].y);
+          ctx.lineTo(projected[j].x, projected[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    for (let i = 0; i < projected.length; i++) {
+      const p = projected[i];
+      const r = p.size * p.scale;
+      const alpha = Math.max(0.2, (p.z + radius) / (2 * radius));
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(0.5, r), 0, Math.PI * 2);
+      if (p.isAccent) {
+        ctx.fillStyle = `rgba(249, 115, 22, ${alpha})`;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = '#f97316';
+      } else {
+        ctx.fillStyle = `rgba(250, 250, 250, ${alpha * 0.7})`;
+        ctx.shadowBlur = 0;
+      }
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();
 </script>
 
 </body>
