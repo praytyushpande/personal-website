@@ -57,12 +57,18 @@ const Contact: React.FC = () => {
               </p>
             </div>
             
-            <div className="pt-10 border-t border-border mt-8">
+            <div className="pt-10 border-t border-border mt-8 space-y-2">
               <a 
                 href="mailto:pratyush@orbplatforms.com" 
-                className="text-lg lg:text-xl font-bold hover:text-accent transition-colors text-fg"
+                className="text-base lg:text-lg font-bold hover:text-accent transition-colors text-fg block"
               >
                 pratyush@orbplatforms.com
+              </a>
+              <a 
+                href="mailto:aasrith@orbplatforms.com" 
+                className="text-base lg:text-lg font-bold hover:text-accent transition-colors text-fg block"
+              >
+                aasrith@orbplatforms.com
               </a>
               <div className="flex gap-4 mt-6 text-xs uppercase tracking-widest opacity-40">
                 <a className="hover:text-fg hover:opacity-100 transition-all" href="#">X</a>
