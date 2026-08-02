@@ -24,35 +24,35 @@ const Careers: React.FC = () => {
       title: 'AI Research Engineer',
       category: 'Engineering',
       type: 'Full-time',
-      location: 'Remote / Hybrid'
+      location: 'Bengaluru / Hyderabad (Hybrid)'
     },
     {
       id: 'research-scientist',
       title: 'Research Scientist',
       category: 'Research',
       type: 'Full-time',
-      location: 'London / SF'
+      location: 'Bengaluru / Noida (Hybrid)'
     },
     {
       id: 'ml-engineer',
       title: 'Machine Learning Engineer',
       category: 'Engineering',
       type: 'Full-time',
-      location: 'Remote / Hybrid'
+      location: 'Hyderabad / NCR (Hybrid)'
     },
     {
       id: 'systems-engineer',
       title: 'Systems Engineer',
       category: 'Systems',
       type: 'Full-time',
-      location: 'SF'
+      location: 'Bengaluru (Hybrid)'
     },
     {
       id: 'research-intern',
-      title: 'Research Intern',
+      title: 'Research Fellow / Intern',
       category: 'Education',
-      type: 'Summer 2026',
-      location: 'Global'
+      type: 'Cohort 2026',
+      location: 'Bengaluru / Hyderabad / Noida (Hybrid)'
     }
   ];
 
