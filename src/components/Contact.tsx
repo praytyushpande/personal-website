@@ -57,18 +57,26 @@ const Contact: React.FC = () => {
               </p>
             </div>
             
-            <div className="pt-10 border-t border-border mt-8 space-y-2">
+            <div className="pt-8 border-t border-border mt-8 space-y-3">
               <a 
                 href="mailto:pratyush@orbplatforms.com" 
-                className="text-base lg:text-lg font-bold hover:text-accent transition-colors text-fg block"
+                className="flex items-center justify-between p-3.5 rounded bg-bg/80 border border-border hover:border-accent transition-all group block text-left"
               >
-                pratyush@orbplatforms.com
+                <div className="space-y-0.5">
+                  <span class="text-[9px] uppercase tracking-[0.2em] text-accent font-bold block">Pratyush</span>
+                  <span class="text-xs font-mono text-fg/90 group-hover:text-accent transition-colors block">pratyush@orbplatforms.com</span>
+                </div>
+                <span class="text-xs text-fg/30 group-hover:text-accent group-hover:translate-x-0.5 transition-all">↗</span>
               </a>
               <a 
                 href="mailto:aasrith@orbplatforms.com" 
-                className="text-base lg:text-lg font-bold hover:text-accent transition-colors text-fg block"
+                className="flex items-center justify-between p-3.5 rounded bg-bg/80 border border-border hover:border-accent transition-all group block text-left"
               >
-                aasrith@orbplatforms.com
+                <div className="space-y-0.5">
+                  <span class="text-[9px] uppercase tracking-[0.2em] text-accent font-bold block">Aasrith</span>
+                  <span class="text-xs font-mono text-fg/90 group-hover:text-accent transition-colors block">aasrith@orbplatforms.com</span>
+                </div>
+                <span class="text-xs text-fg/30 group-hover:text-accent group-hover:translate-x-0.5 transition-all">↗</span>
               </a>
               <div className="flex gap-4 mt-6 text-xs uppercase tracking-widest opacity-40">
                 <a className="hover:text-fg hover:opacity-100 transition-all" href="#">X</a>
