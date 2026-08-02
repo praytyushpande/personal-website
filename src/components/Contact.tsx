@@ -59,10 +59,10 @@ const Contact: React.FC = () => {
             
             <div className="pt-10 border-t border-border mt-8">
               <a 
-                href="mailto:hello@orblabs.ai" 
+                href="mailto:pratyush@orbplatforms.com" 
                 className="text-lg lg:text-xl font-bold hover:text-accent transition-colors text-fg"
               >
-                hello@orblabs.ai
+                pratyush@orbplatforms.com
               </a>
               <div className="flex gap-4 mt-6 text-xs uppercase tracking-widest opacity-40">
                 <a className="hover:text-fg hover:opacity-100 transition-all" href="#">X</a>
