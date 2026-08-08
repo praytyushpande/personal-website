@@ -1,14 +1,4 @@
-:root {
-  --color-bg: #0d0a08;
-  --color-surface: #14110d;
-  --color-fg: #fafafa;
-  --color-accent: #f97316;
-  --color-border: rgba(250, 250, 250, 0.1);
-  --color-border-strong: rgba(250, 250, 250, 0.2);
-
-  --font-display: 'Instrument Serif', serif;
-  --font-body: 'DM Sans', sans-serif;
-}
+@import "tailwindcss";
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -16,46 +6,16 @@
   padding: 0;
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-fg);
-  font-family: var(--font-body);
+html, body {
+  background: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
   margin: 0;
-  overflow-x: clip;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, .font-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--color-bg); }
-::-webkit-scrollbar-thumb { background: var(--color-border-strong); }
-
-/* Sticky Header */
-.nav-blur {
-  backdrop-filter: blur(12px);
-  background: rgba(13, 10, 8, 0.8);
-}
-
-/* Careers Skyline */
-.skyline-card:nth-child(3n+1) { height: 320px; }
-.skyline-card:nth-child(3n+2) { height: 240px; }
-.skyline-card:nth-child(3n) { height: 280px; }
-
-/* No scrollbar class */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Page Noise */
-.page-noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 99;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
+/* Hide scrollbar */
+::-webkit-scrollbar { width: 0; height: 0; }
+body { scrollbar-width: none; }

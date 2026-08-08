@@ -1,56 +1,43 @@
-import React, { useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Manifesto from './components/Manifesto';
-import About from './components/About';
-import Research from './components/Research';
-import Publications from './components/Publications';
-import Careers from './components/Careers';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import Lenis from 'lenis';
-import 'lenis/dist/lenis.css';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import React, { useState, useEffect } from 'react';
+import WorldMapCanvas from './components/HandCanvas';
+import FolderHero from './components/FolderHero';
+import PersonalHubModal from './components/PersonalHubModal';
 
 const App: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('projects');
+
+  // ESC to close modal
   useEffect(() => {
-    // Initialize Lenis
-    const lenis = new Lenis();
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Sync GSAP ScrollTrigger with Lenis scroll events
-    ScrollTrigger.addEventListener('refresh', () => lenis.resize());
-    ScrollTrigger.refresh();
-
-    return () => {
-      lenis.destroy();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsModalOpen(false);
     };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const handleOpenFolder = (tab: string = 'projects') => {
+    setActiveTab(tab);
+    setIsModalOpen(true);
+  };
+
   return (
-    <div className="smooth-wrapper bg-bg text-fg min-h-screen selection:bg-accent selection:text-bg relative">
-      <div className="page-noise" aria-hidden="true"></div>
-      <Navbar />
-      <main>
-        <Hero />
-        <Manifesto />
-        <About />
-        <Research />
-        <Publications />
-        <Careers />
-        <FAQ />
-        <Contact />
+    <div style={{ background: '#000', color: '#fff', minHeight: '100vh', position: 'relative', overflow: 'hidden', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif' }}>
+      {/* Dot-Matrix World Map Background */}
+      <WorldMapCanvas />
+
+      {/* Centered Folder */}
+      <main style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <FolderHero onOpen={handleOpenFolder} />
       </main>
-      <Footer />
+
+      {/* Hub Modal */}
+      <PersonalHubModal
+        isOpen={isModalOpen}
+        activeTab={activeTab}
+        onClose={() => setIsModalOpen(false)}
+        onSelectTab={(tab) => setActiveTab(tab)}
+      />
     </div>
   );
 };
