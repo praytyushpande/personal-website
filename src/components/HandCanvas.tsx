@@ -69,15 +69,15 @@ export const HandsCanvas: React.FC = () => {
       const dotSpacing = Math.max(5, Math.min(8, w / 160));
       const newDots: { x: number; y: number; brightness: number }[] = [];
 
-      // Clear zone around center for the folder icon
+      // Tiny clear zone — only directly behind the folder icon itself
       const centerX = w / 2;
       const centerY = h / 2;
-      const clearW = 90;
-      const clearH = 80;
+      const clearW = 38;
+      const clearH = 42;
 
       for (let y = 0; y < h; y += dotSpacing) {
         for (let x = 0; x < w; x += dotSpacing) {
-          // Skip center area where folder sits
+          // Skip only the small area directly behind the folder icon
           if (
             x > centerX - clearW && x < centerX + clearW &&
             y > centerY - clearH && y < centerY + clearH
